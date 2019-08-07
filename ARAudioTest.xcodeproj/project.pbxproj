@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5013282422F8B6820032AA26 /* blobs.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013282322F8B6820032AA26 /* blobs.wav */; };
 		5013D45D22F8D58D00F1F2EC /* piano.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45C22F8D58D00F1F2EC /* piano.wav */; };
+		5013D45F22FB5BFE00F1F2EC /* bottle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45E22FB5BFD00F1F2EC /* bottle.wav */; };
 		501563D122F4B40B00720B75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501563D022F4B40B00720B75 /* AppDelegate.swift */; };
 		501563D322F4B40B00720B75 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 501563D222F4B40B00720B75 /* Experience.rcproject */; };
 		501563D522F4B40B00720B75 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501563D422F4B40B00720B75 /* ContentView.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		5013282322F8B6820032AA26 /* blobs.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = blobs.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/blobs.wav"; sourceTree = "<group>"; };
 		5013D45C22F8D58D00F1F2EC /* piano.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = piano.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/piano.wav"; sourceTree = "<group>"; };
+		5013D45E22FB5BFD00F1F2EC /* bottle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bottle.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/untitled folder/bottle.wav"; sourceTree = "<group>"; };
 		501563CD22F4B40B00720B75 /* ARAudioTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARAudioTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		501563D022F4B40B00720B75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		501563D222F4B40B00720B75 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				501563E422F4C3F700720B75 /* hello.mp3 */,
+				5013D45E22FB5BFD00F1F2EC /* bottle.wav */,
 				5013D45C22F8D58D00F1F2EC /* piano.wav */,
 				5013282322F8B6820032AA26 /* blobs.wav */,
 				501563D022F4B40B00720B75 /* AppDelegate.swift */,
@@ -144,6 +147,7 @@
 			files = (
 				5013282422F8B6820032AA26 /* blobs.wav in Resources */,
 				501563DD22F4B40E00720B75 /* LaunchScreen.storyboard in Resources */,
+				5013D45F22FB5BFE00F1F2EC /* bottle.wav in Resources */,
 				5013D45D22F8D58D00F1F2EC /* piano.wav in Resources */,
 				501563DA22F4B40E00720B75 /* Preview Assets.xcassets in Resources */,
 				501563D722F4B40E00720B75 /* Assets.xcassets in Resources */,
