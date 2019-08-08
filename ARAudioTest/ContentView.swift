@@ -11,21 +11,22 @@ import RealityKit
 import Combine
 
 struct ContentView : View {
-    @State var loopOn: Bool = false
-    @State var isPlaying: Bool = false
-    
+//    @State var loopOn: Bool = false
+//    @State var isPlaying: Bool = false
+
     var body: some View {
         return ZStack{
-            ARViewContainer(loopOn: $loopOn, isPlaying: $isPlaying).edgesIgnoringSafeArea(.all)
-            HStack{
-                Button("toggle loop"){
-                    self.loopOn.toggle()
-                }
-                Button("play/stop"){
-                    self.isPlaying.toggle()
-                }
+//            ARViewContainer(loopOn: $loopOn, isPlaying: $isPlaying).edgesIgnoringSafeArea(.all)
+            ARViewContainer()
+//            HStack{
+//                Button("toggle loop"){
+//                    self.loopOn.toggle()
+//                }
+//                Button("play/stop"){
+//                    self.isPlaying.toggle()
+//                }
                 
-            }
+//            }
         }
     }
 }
@@ -33,8 +34,8 @@ struct ContentView : View {
 
 struct ARViewContainer: UIViewRepresentable {
     
-    @Binding var loopOn: Bool
-    @Binding var isPlaying: Bool
+//    @Binding var loopOn: Bool
+//    @Binding var isPlaying: Bool
     
     func makeUIView(context: Context) -> ARViewTest {
         return ARViewTest(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: .random())
@@ -43,7 +44,7 @@ struct ARViewContainer: UIViewRepresentable {
     //called when anything inside is changed
     func updateUIView(_ uiView: ARViewTest, context: Context) {
         //      uiView.loopAudio(loopOn)
-        //        uiView.playStopAudio(isPlaying)
+        //      uiView.playStopAudio(isPlaying)
     }
     
 }
@@ -54,12 +55,14 @@ class ARViewTest: ARView {
     var audio2: AudioFileResource?
     var boxEntity: Entity!
     var capsuleEntity: Entity!
+    var ballEntity: Entity!
     let myView = UIView(frame: CGRect(x: 100, y: 100, width: 300, height: 300))
     var audioPlaybackController: AudioPlaybackController?
     var entityDataArray: [EntityData] = []
-    
     var boxEntityData: EntityData!
     var capsuleEntityData: EntityData!
+    var ballEntityData: EntityData!
+    
     /// init
     override init(frame frameRect: CGRect, cameraMode: ARView.CameraMode, automaticallyConfigureSession: Bool) {
         super.init(frame: frameRect)
@@ -80,13 +83,18 @@ class ARViewTest: ARView {
         
         capsuleEntity = self.scene.findEntity(named: "capsule")
         capsuleEntity!.setPosition([1,0,0], relativeTo: nil)
-        capsuleEntity!.components[CollisionComponent] = CollisionComponent(shapes: [.generateCapsule(height: 0.2, radius: 0.05)])//radius vs diameter???
+        capsuleEntity!.components[CollisionComponent] = CollisionComponent(shapes: [.generateCapsule(height: 0.2, radius: 0.05)])//radius vs diameter??? bottom does not respond with tapping
         
         
-        boxEntityData = EntityData(entity: boxEntity, audioFileName: "hello.mp3")
-        capsuleEntityData = EntityData(entity: capsuleEntity, audioFileName: "bottle.wav")
+        ballEntity = self.scene.findEntity(named:"ball")
+        ballEntity.setPosition([2,0,0], relativeTo: nil)
+        ballEntity.components[CollisionComponent] = CollisionComponent(shapes: [ .generateSphere(radius: 0.05)])
         
-        entityDataArray = [boxEntityData, capsuleEntityData]
+        boxEntityData = EntityData(entity: boxEntity, audioFileName: "hello.mp3", audioShouldLoop: false)
+        capsuleEntityData = EntityData(entity: capsuleEntity, audioFileName: "bottle.wav", audioShouldLoop: false)
+        ballEntityData = EntityData(entity:ballEntity, audioFileName: "blobs.wav", audioShouldLoop: false)
+        
+        entityDataArray = [boxEntityData, capsuleEntityData, ballEntityData]
         // audio = try! AudioFileResource.load(named: "hello.mp3", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: true)
         // audioPlaybackController = box!.prepareAudio(self.audio)
         
@@ -126,28 +134,15 @@ class ARViewTest: ARView {
         let entities = entityDataArray.map({ $0.entity })
         for (index, entity) in entities.enumerated() {
             if hitEntity == entity {
-                entityDataArray[index].audioPlaybackController.play()
+                if let audioPlaybackController = entityDataArray[index].audioPlaybackController {
+                    audioPlaybackController.play()
+                    entityDataArray[index].isSelected = true
+                }
+            } else {
+                entityDataArray[index].isSelected = false
             }
         }
-//        if hitEntity == boxEntity {
-//            if let audio = audio1 {
-//                hitEntity.playAudio(audio)
-//            }
-//        } else if hitEntity == capsuleEntity {
-//            if let audio = audio2 {
-//                hitEntity.playAudio(audio)
-//            }
-//        }
-        //            if let controller = audioPlaybackController {
-        ////                //if looped, toggle play/stop
-        ////                if controller.isPlaying {
-        ////                    controller.stop()
-        ////                } else {
-        ////                    controller.play()
-        ////                }
-        //                //if not looped, tap to play once
-        //                controller.play()
-        //            }
+        
     }
     
     //        func loopAudio(_ loopOn: Bool) {
@@ -188,34 +183,27 @@ class ARViewTest: ARView {
 }
 
 
-
-
-#if DEBUG
-struct ContentView_Previews : PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-#endif
-
-
 //struct(Escaping closure captures mutating 'self' parameter)
 //vs class('self' captured by a closure before all members were initialized)
 class EntityData {
     var entity: Entity!
-    var audioFileName: String! //URL
-    var audio: AudioFileResource
-    var audioPlaybackController: AudioPlaybackController
-    var audioShouldLoop: Bool = false
+    var audioFileName: String? //change to URL
+    var audio: AudioFileResource?
+    var audioPlaybackController: AudioPlaybackController?
+    var audioShouldLoop: Bool? = false
+    var isSelected: Bool! = false
     
-    init(entity: Entity, audioFileName: String) {
+
+    init(entity: Entity, audioFileName: String?, audioShouldLoop: Bool?) {
         self.entity = entity
         self.audioFileName = audioFileName
-        //initialize first
-        audio = try! AudioFileResource.load(named: "piano.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: true)
-        audioPlaybackController = entity.prepareAudio(audio)
+        self.audioShouldLoop = audioShouldLoop
         
-        let loadRequest = AudioFileResource.loadAsync(named: audioFileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop)
+//        //initialize first?????
+//        audio = try! AudioFileResource.load(named: "piano.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
+//        audioPlaybackController = entity.prepareAudio(audio)
+        guard let fileName = audioFileName else {return}
+        let loadRequest = AudioFileResource.loadAsync(named: fileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
         let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
             print("completed")
         }, receiveValue: { loadedAudio in
@@ -224,16 +212,8 @@ class EntityData {
         })
         loadRequest.subscribe(observer)
     }
-    
-//    func loadAudioFile(){
-//        let loadRequest = AudioFileResource.loadAsync(named: audioFileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop)
-//        let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
-//            print("completed")
-//        }, receiveValue: { loadedAudio in
-//            self.audio = loadedAudio
-//            self.audioPlaybackController = self.entity.prepareAudio(loadedAudio)
-//        })
-//        loadRequest.subscribe(observer)
-//    }
+
     
 }
+
+
