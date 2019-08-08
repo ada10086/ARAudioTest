@@ -9,15 +9,36 @@
 import SwiftUI
 import RealityKit
 import Combine
+import AudioKit
 
 struct ContentView : View {
-//    @State var loopOn: Bool = false
-//    @State var isPlaying: Bool = false
+
+    @State var audioViewOn: Bool = false
+    @ObservedObject var audioEngine: AudioEngine
+
+    @ObservedObject var arViewAudioData: ARViewAudioData
 
     var body: some View {
         return ZStack{
-//            ARViewContainer(loopOn: $loopOn, isPlaying: $isPlaying).edgesIgnoringSafeArea(.all)
-            ARViewContainer()
+            ARViewContainer(arViewAudioData: arViewAudioData)
+            VStack{
+                Spacer()
+                HStack{
+                    Spacer()
+                    ZStack{
+                        if !audioViewOn {
+                            Button("record audio"){self.audioViewOn = true}
+                                .padding()
+                                .foregroundColor(Color.white)
+                                .background(Color.black)
+                        } else {
+                            audioView(audioEngine: audioEngine, arViewAudioData: arViewAudioData)
+                                .frame(width: 400, height: 400, alignment: .center)
+                        }
+                    }
+                }
+            }
+
 //            HStack{
 //                Button("toggle loop"){
 //                    self.loopOn.toggle()
@@ -34,17 +55,32 @@ struct ContentView : View {
 
 struct ARViewContainer: UIViewRepresentable {
     
-//    @Binding var loopOn: Bool
-//    @Binding var isPlaying: Bool
+    @ObservedObject var arViewAudioData: ARViewAudioData
+    var urlCanceller: Cancellable?
+    
+    //why init here
+    init(arViewAudioData:ARViewAudioData){
+        self.arViewAudioData = arViewAudioData
+        
+        urlCanceller = arViewAudioData.urlSubject.sink(receiveValue: { url in
+            print("canceller received audioURL: \(url)")
+            arViewAudioData.url = url
+        })
+    }
+    
     
     func makeUIView(context: Context) -> ARViewTest {
-        return ARViewTest(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: .random())
+        let arViewTest = ARViewTest(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: .random())
+        arViewAudioData.arViewTest = arViewTest
+
+        return arViewTest
     }
     
     //called when anything inside is changed
     func updateUIView(_ uiView: ARViewTest, context: Context) {
         //      uiView.loopAudio(loopOn)
         //      uiView.playStopAudio(isPlaying)
+        uiView.attachAudio(entityData: uiView.boxEntityData, url: arViewAudioData.url)
     }
     
 }
@@ -145,6 +181,16 @@ class ARViewTest: ARView {
         
     }
     
+    func attachAudio(entityData: EntityData, url: URL){
+        let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
+        let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
+            print("completed")
+        }, receiveValue: { loadedAudio in
+            entityData.audioPlaybackController = entityData.entity.prepareAudio(loadedAudio)
+        })
+        loadRequest.subscribe(observer)
+    }
+    
     //        func loopAudio(_ loopOn: Bool) {
     //            if let controller = audioPlaybackController {
     //                if controller.isPlaying {
@@ -188,6 +234,7 @@ class ARViewTest: ARView {
 class EntityData {
     var entity: Entity!
     var audioFileName: String? //change to URL
+    var audioURL: String?
     var audio: AudioFileResource?
     var audioPlaybackController: AudioPlaybackController?
     var audioShouldLoop: Bool? = false
@@ -203,6 +250,7 @@ class EntityData {
 //        audio = try! AudioFileResource.load(named: "piano.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
 //        audioPlaybackController = entity.prepareAudio(audio)
         guard let fileName = audioFileName else {return}
+//        let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
         let loadRequest = AudioFileResource.loadAsync(named: fileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
         let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
             print("completed")
@@ -212,8 +260,16 @@ class EntityData {
         })
         loadRequest.subscribe(observer)
     }
-
-    
 }
 
 
+
+
+final class ARViewAudioData: ObservableObject  {
+    @Published var url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+
+    //publisher and subscriber
+    let urlSubject = PassthroughSubject<URL, Never>()
+    
+    var arViewTest: ARViewTest?
+}

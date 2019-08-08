@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D46D9594790985C4A7B354F /* Pods_ARAudioTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB13BEA7F181DED97D4F0A79 /* Pods_ARAudioTest.framework */; };
 		5013282422F8B6820032AA26 /* blobs.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013282322F8B6820032AA26 /* blobs.wav */; };
 		5013D45D22F8D58D00F1F2EC /* piano.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45C22F8D58D00F1F2EC /* piano.wav */; };
 		5013D45F22FB5BFE00F1F2EC /* bottle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45E22FB5BFD00F1F2EC /* bottle.wav */; };
+		5013D46122FCB19400F1F2EC /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46022FCB19400F1F2EC /* AudioEngine.swift */; };
+		5013D46322FCB6E500F1F2EC /* audioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46222FCB6E400F1F2EC /* audioView.swift */; };
+		5013D46522FCB77A00F1F2EC /* EffectPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46422FCB77A00F1F2EC /* EffectPreview.swift */; };
+		5013D46722FCB7B800F1F2EC /* SavedAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */; };
 		501563D122F4B40B00720B75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501563D022F4B40B00720B75 /* AppDelegate.swift */; };
 		501563D322F4B40B00720B75 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 501563D222F4B40B00720B75 /* Experience.rcproject */; };
 		501563D522F4B40B00720B75 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501563D422F4B40B00720B75 /* ContentView.swift */; };
@@ -20,9 +25,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3047F15EB22FECE6A93175DB /* Pods-ARAudioTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARAudioTest.debug.xcconfig"; path = "Target Support Files/Pods-ARAudioTest/Pods-ARAudioTest.debug.xcconfig"; sourceTree = "<group>"; };
 		5013282322F8B6820032AA26 /* blobs.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = blobs.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/blobs.wav"; sourceTree = "<group>"; };
 		5013D45C22F8D58D00F1F2EC /* piano.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = piano.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/piano.wav"; sourceTree = "<group>"; };
 		5013D45E22FB5BFD00F1F2EC /* bottle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bottle.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/untitled folder/bottle.wav"; sourceTree = "<group>"; };
+		5013D46022FCB19400F1F2EC /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
+		5013D46222FCB6E400F1F2EC /* audioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audioView.swift; sourceTree = "<group>"; };
+		5013D46422FCB77A00F1F2EC /* EffectPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectPreview.swift; sourceTree = "<group>"; };
+		5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAudioView.swift; sourceTree = "<group>"; };
 		501563CD22F4B40B00720B75 /* ARAudioTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARAudioTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		501563D022F4B40B00720B75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		501563D222F4B40B00720B75 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
@@ -32,6 +42,8 @@
 		501563DC22F4B40E00720B75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		501563DE22F4B40E00720B75 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		501563E422F4C3F700720B75 /* hello.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = hello.mp3; path = "../../Library/CloudStorage/iCloud Drive/Desktop/hello.mp3"; sourceTree = "<group>"; };
+		E7DA62D65B92CFCB2569EAA6 /* Pods-ARAudioTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARAudioTest.release.xcconfig"; path = "Target Support Files/Pods-ARAudioTest/Pods-ARAudioTest.release.xcconfig"; sourceTree = "<group>"; };
+		EB13BEA7F181DED97D4F0A79 /* Pods_ARAudioTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARAudioTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,17 +51,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D46D9594790985C4A7B354F /* Pods_ARAudioTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4EB9ADB88FE2296DEA56FACA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EB13BEA7F181DED97D4F0A79 /* Pods_ARAudioTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		501563C422F4B40A00720B75 = {
 			isa = PBXGroup;
 			children = (
 				501563CF22F4B40B00720B75 /* ARAudioTest */,
 				501563CE22F4B40B00720B75 /* Products */,
+				D0C7191F536D842D7B1FD9CE /* Pods */,
+				4EB9ADB88FE2296DEA56FACA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +94,10 @@
 				501563D022F4B40B00720B75 /* AppDelegate.swift */,
 				501563D222F4B40B00720B75 /* Experience.rcproject */,
 				501563D422F4B40B00720B75 /* ContentView.swift */,
+				5013D46222FCB6E400F1F2EC /* audioView.swift */,
+				5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */,
+				5013D46422FCB77A00F1F2EC /* EffectPreview.swift */,
+				5013D46022FCB19400F1F2EC /* AudioEngine.swift */,
 				501563D622F4B40E00720B75 /* Assets.xcassets */,
 				501563DB22F4B40E00720B75 /* LaunchScreen.storyboard */,
 				501563DE22F4B40E00720B75 /* Info.plist */,
@@ -87,6 +114,15 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		D0C7191F536D842D7B1FD9CE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3047F15EB22FECE6A93175DB /* Pods-ARAudioTest.debug.xcconfig */,
+				E7DA62D65B92CFCB2569EAA6 /* Pods-ARAudioTest.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -94,6 +130,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 501563E122F4B40E00720B75 /* Build configuration list for PBXNativeTarget "ARAudioTest" */;
 			buildPhases = (
+				C4CBE6C99A530A7915E2D667 /* [CP] Check Pods Manifest.lock */,
 				501563C922F4B40A00720B75 /* Sources */,
 				501563CA22F4B40A00720B75 /* Frameworks */,
 				501563CB22F4B40A00720B75 /* Resources */,
@@ -157,14 +194,43 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C4CBE6C99A530A7915E2D667 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARAudioTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		501563C922F4B40A00720B75 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5013D46122FCB19400F1F2EC /* AudioEngine.swift in Sources */,
+				5013D46722FCB7B800F1F2EC /* SavedAudioView.swift in Sources */,
 				501563D322F4B40B00720B75 /* Experience.rcproject in Sources */,
 				501563D122F4B40B00720B75 /* AppDelegate.swift in Sources */,
 				501563D522F4B40B00720B75 /* ContentView.swift in Sources */,
+				5013D46322FCB6E500F1F2EC /* audioView.swift in Sources */,
+				5013D46522FCB77A00F1F2EC /* EffectPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +364,7 @@
 		};
 		501563E222F4B40E00720B75 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3047F15EB22FECE6A93175DB /* Pods-ARAudioTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -318,6 +385,7 @@
 		};
 		501563E322F4B40E00720B75 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7DA62D65B92CFCB2569EAA6 /* Pods-ARAudioTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
