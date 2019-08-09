@@ -28,26 +28,19 @@ struct ContentView : View {
                     ZStack{
                         if !audioViewOn {
                             Button("record audio"){self.audioViewOn = true}
-                                .padding()
+                                .frame(width: 120, height: 30, alignment: .center)
+                                .background(Color.black)  //if active, change color
+                                .cornerRadius(5)
                                 .foregroundColor(Color.white)
-                                .background(Color.black)
+                                .padding(3)
                         } else {
-                            audioView(audioEngine: audioEngine, arViewAudioData: arViewAudioData)
+                            AudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn, arViewAudioData: arViewAudioData)
                                 .frame(width: 400, height: 400, alignment: .center)
+                                .cornerRadius(5)
                         }
                     }
                 }
             }
-
-//            HStack{
-//                Button("toggle loop"){
-//                    self.loopOn.toggle()
-//                }
-//                Button("play/stop"){
-//                    self.isPlaying.toggle()
-//                }
-                
-//            }
         }
     }
 }
@@ -266,9 +259,9 @@ class EntityData {
 
 
 final class ARViewAudioData: ObservableObject  {
+    ////have to initialize first?
     @Published var url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-    //publisher and subscriber
     let urlSubject = PassthroughSubject<URL, Never>()
     
     var arViewTest: ARViewTest?

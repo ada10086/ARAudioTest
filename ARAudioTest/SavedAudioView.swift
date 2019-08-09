@@ -11,7 +11,8 @@ import AudioKit
 
 struct SavedAudioView: View {
     @ObservedObject var audioEngine: AudioEngine
-
+    @Binding var audioViewOn: Bool
+    
     var body: some View {
         VStack{
             ForEach(self.audioEngine.recordedFiles, id: \.self){ file in
@@ -25,12 +26,11 @@ struct SavedAudioView: View {
                     try? self.audioEngine.recordedPlayer!.load(url: file.fileURL)
                     self.audioEngine.recordedPlayer!.play()
                 }
-                .font(.title)
-                .foregroundColor(Color.white)
-                .frame(width: 150, height: 150, alignment: .center)
-                .padding()
-                .background(Color.black)
+                .frame(width: 120, height: 30, alignment: .center)
+                .background(Color.black)  //if active, change color
                 .cornerRadius(5)
+                .foregroundColor(Color.white)
+                .padding(3)
             }
         }
     }

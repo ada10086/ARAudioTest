@@ -12,7 +12,7 @@
 		5013D45D22F8D58D00F1F2EC /* piano.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45C22F8D58D00F1F2EC /* piano.wav */; };
 		5013D45F22FB5BFE00F1F2EC /* bottle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5013D45E22FB5BFD00F1F2EC /* bottle.wav */; };
 		5013D46122FCB19400F1F2EC /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46022FCB19400F1F2EC /* AudioEngine.swift */; };
-		5013D46322FCB6E500F1F2EC /* audioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46222FCB6E400F1F2EC /* audioView.swift */; };
+		5013D46322FCB6E500F1F2EC /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46222FCB6E400F1F2EC /* AudioView.swift */; };
 		5013D46522FCB77A00F1F2EC /* EffectPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46422FCB77A00F1F2EC /* EffectPreview.swift */; };
 		5013D46722FCB7B800F1F2EC /* SavedAudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */; };
 		501563D122F4B40B00720B75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501563D022F4B40B00720B75 /* AppDelegate.swift */; };
@@ -30,7 +30,7 @@
 		5013D45C22F8D58D00F1F2EC /* piano.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = piano.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/piano.wav"; sourceTree = "<group>"; };
 		5013D45E22FB5BFD00F1F2EC /* bottle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bottle.wav; path = "../../Library/CloudStorage/iCloud Drive/Desktop/untitled folder/bottle.wav"; sourceTree = "<group>"; };
 		5013D46022FCB19400F1F2EC /* AudioEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
-		5013D46222FCB6E400F1F2EC /* audioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audioView.swift; sourceTree = "<group>"; };
+		5013D46222FCB6E400F1F2EC /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
 		5013D46422FCB77A00F1F2EC /* EffectPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectPreview.swift; sourceTree = "<group>"; };
 		5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedAudioView.swift; sourceTree = "<group>"; };
 		501563CD22F4B40B00720B75 /* ARAudioTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARAudioTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +94,7 @@
 				501563D022F4B40B00720B75 /* AppDelegate.swift */,
 				501563D222F4B40B00720B75 /* Experience.rcproject */,
 				501563D422F4B40B00720B75 /* ContentView.swift */,
-				5013D46222FCB6E400F1F2EC /* audioView.swift */,
+				5013D46222FCB6E400F1F2EC /* AudioView.swift */,
 				5013D46622FCB7B800F1F2EC /* SavedAudioView.swift */,
 				5013D46422FCB77A00F1F2EC /* EffectPreview.swift */,
 				5013D46022FCB19400F1F2EC /* AudioEngine.swift */,
@@ -229,7 +229,7 @@
 				501563D322F4B40B00720B75 /* Experience.rcproject in Sources */,
 				501563D122F4B40B00720B75 /* AppDelegate.swift in Sources */,
 				501563D522F4B40B00720B75 /* ContentView.swift in Sources */,
-				5013D46322FCB6E500F1F2EC /* audioView.swift in Sources */,
+				5013D46322FCB6E500F1F2EC /* AudioView.swift in Sources */,
 				5013D46522FCB77A00F1F2EC /* EffectPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

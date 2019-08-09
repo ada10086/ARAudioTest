@@ -22,6 +22,9 @@ struct EffectPreview: View {
             //preview buttons
             ForEach(self.audioEngine.effectPlayers, id: \.self){ playerData in
                 Button(playerData.effect){
+//                    try? AudioKit.stop()
+//                    try? AudioKit.start()
+                    ////breakpoint: required condition is false: [AVAudioPlayerNode.mm:568:StartImpl: (_engine->IsRunning())]
                     playerData.player.play()
                     self.audioEngine.activePlayerData = playerData
                 }
