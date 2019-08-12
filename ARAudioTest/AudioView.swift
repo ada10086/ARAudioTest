@@ -90,6 +90,7 @@ struct AudioView: View {
                         
                         Button("dismiss"){
                             self.audioViewOn = false
+//                            try? AudioKit.stop()
                         }
                         .frame(width: 120, height: 30, alignment: .center)
                         .background(Color.black)  //if active, change color

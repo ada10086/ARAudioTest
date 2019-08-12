@@ -17,9 +17,11 @@ struct SavedAudioView: View {
         VStack{
             ForEach(self.audioEngine.recordedFiles, id: \.self){ file in
                 Button(file.title){
+    
+                    ////do not call stop() once stop() is called, object's audio in scene stops playing
+                    //try? AudioKit.stop()
+                    
                     ////have to restart AudioKit, or '*** Terminating app due to uncaught exception 'com.apple.coreaudio.avfaudio', reason: 'required condition is false: _engine->IsRunning()'
-                    ////once tapped, object's audio in scene stops playing
-                    try? AudioKit.stop()
                     try? AudioKit.start()
                     ////--------------------------------
                     print("url \(file.fileURL)")

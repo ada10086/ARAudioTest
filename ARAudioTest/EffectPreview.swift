@@ -52,8 +52,8 @@ struct EffectPreview: View {
                         //export .wav
                         let id = UUID()
                         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(id.uuidString + ".wav")
-                        let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 2, interleaved: true)!
-                        let audioFile = try! AVAudioFile(forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat64, interleaved: true)
+                        let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 2, interleaved: false)!
+                        let audioFile = try! AVAudioFile(forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat64, interleaved: false)
                         try AudioKit.renderToFile(audioFile, duration:
                             //fix duration!!
                             self.audioEngine.activePlayerData.player.duration + 1, prerender: {

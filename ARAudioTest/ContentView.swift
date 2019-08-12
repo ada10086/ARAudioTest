@@ -19,6 +19,21 @@ struct ContentView : View {
     @ObservedObject var arViewAudioData: ARViewAudioData
 
     var body: some View {
+//        return ZStack{
+//                        if !audioViewOn {
+//                            ARViewContainer(arViewAudioData: arViewAudioData)
+//                            Button("record audio"){self.audioViewOn = true}
+//                                .frame(width: 120, height: 30, alignment: .center)
+//                                .background(Color.black)  //if active, change color
+//                                .cornerRadius(5)
+//                                .foregroundColor(Color.white)
+//                                .padding(3)
+//                        } else {
+//                            AudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn, arViewAudioData: arViewAudioData)
+//                                .frame(width: 400, height: 400, alignment: .center)
+//                                .cornerRadius(5)
+//                        }
+//        }
         return ZStack{
             ARViewContainer(arViewAudioData: arViewAudioData)
             VStack{
@@ -85,7 +100,7 @@ class ARViewTest: ARView {
     var boxEntity: Entity!
     var capsuleEntity: Entity!
     var ballEntity: Entity!
-    let myView = UIView(frame: CGRect(x: 100, y: 100, width: 300, height: 300))
+//    let myView = UIView(frame: CGRect(x: 100, y: 100, width: 300, height: 300))
     var audioPlaybackController: AudioPlaybackController?
     var entityDataArray: [EntityData] = []
     var boxEntityData: EntityData!
@@ -96,12 +111,10 @@ class ARViewTest: ARView {
     override init(frame frameRect: CGRect, cameraMode: ARView.CameraMode, automaticallyConfigureSession: Bool) {
         super.init(frame: frameRect)
         
-        self.myView.backgroundColor = .blue
-        self.addSubview(myView)
-        // Load the "Box" scene from the "Experience" Reality File
+//        self.myView.backgroundColor = .blue
+//        self.addSubview(myView)
+
         let boxAnchor = try! Experience.loadMyScene()
-        
-        // Add the box anchor to the scene
         self.scene.anchors.append(boxAnchor)
         
         boxEntity = self.scene.findEntity(named: "Steel Box")
@@ -152,7 +165,7 @@ class ARViewTest: ARView {
         
         let tap = UITapGestureRecognizer(target:self, action: #selector(handleTap(_:)))
         self.addGestureRecognizer(tap)
-        self.isUserInteractionEnabled = true
+//        self.isUserInteractionEnabled = true
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer){
@@ -165,6 +178,7 @@ class ARViewTest: ARView {
             if hitEntity == entity {
                 if let audioPlaybackController = entityDataArray[index].audioPlaybackController {
                     audioPlaybackController.play()
+                    print("entity audio: \(entityDataArray[index].audioURL)")
                     entityDataArray[index].isSelected = true
                 }
             } else {
@@ -175,6 +189,7 @@ class ARViewTest: ARView {
     }
     
     func attachAudio(entityData: EntityData, url: URL){
+        entityData.audioURL = url
         let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
         let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
             print("completed")
@@ -227,7 +242,7 @@ class ARViewTest: ARView {
 class EntityData {
     var entity: Entity!
     var audioFileName: String? //change to URL
-    var audioURL: String?
+    var audioURL: URL?
     var audio: AudioFileResource?
     var audioPlaybackController: AudioPlaybackController?
     var audioShouldLoop: Bool? = false
