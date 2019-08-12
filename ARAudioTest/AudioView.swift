@@ -75,7 +75,7 @@ struct AudioView: View {
                     if !audioSaved {
                         EffectPreview(audioEngine: audioEngine, audioSaved: $audioSaved, arViewAudioData: arViewAudioData)
                     } else {
-                        SavedAudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn)
+                        SavedAudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn, arViewAudioData: arViewAudioData)
                             .padding()
                         
                         Button("new recording"){

@@ -49,7 +49,7 @@ struct EffectPreview: View {
                 if let _ = self.audioEngine.recorder.audioFile?.duration {
                     
                     do {
-                        //export .wav
+                        //export audio file with applied effect .wav
                         let id = UUID()
                         let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(id.uuidString + ".wav")
                         let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 2, interleaved: false)!
@@ -62,8 +62,8 @@ struct EffectPreview: View {
                         })
                         print("audio file rendered")
                         
-                        //send url to subscriber in ARViewTest
-                        self.arViewAudioData.urlSubject.send(url)
+//                        //send url to subscriber in ARViewTest
+//                        self.arViewAudioData.urlSubject.send(url)
 
                         
                         //add data to recordedfiles array

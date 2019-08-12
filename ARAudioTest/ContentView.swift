@@ -64,31 +64,46 @@ struct ContentView : View {
 struct ARViewContainer: UIViewRepresentable {
     
     @ObservedObject var arViewAudioData: ARViewAudioData
-    var urlCanceller: Cancellable?
+    var boxURLCanceller: Cancellable?
+    var capsuleURLCanceller: Cancellable?
+    var sphereURLCanceller: Cancellable?
     
     //why init here
     init(arViewAudioData:ARViewAudioData){
         self.arViewAudioData = arViewAudioData
         
-        urlCanceller = arViewAudioData.urlSubject.sink(receiveValue: { url in
-            print("canceller received audioURL: \(url)")
-            arViewAudioData.url = url
+        //subscriber receiving exported audio url
+        boxURLCanceller = arViewAudioData.boxURLSubject.sink(receiveValue: { url in
+            print("boxURLCanceller received audioURL: \(url)")
+            arViewAudioData.boxURL = url
         })
+        capsuleURLCanceller = arViewAudioData.capsuleURLSubject.sink(receiveValue: { url in
+            print("capsuleURLCanceller received audioURL: \(url)")
+            arViewAudioData.capsuleURL = url
+        })
+        sphereURLCanceller = arViewAudioData.sphereURLSubject.sink(receiveValue: { url in
+            print("sphereURLCanceller received audioURL: \(url)")
+            arViewAudioData.sphereURL = url
+        })
+        
     }
     
     
     func makeUIView(context: Context) -> ARViewTest {
         let arViewTest = ARViewTest(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: .random())
+        
         arViewAudioData.arViewTest = arViewTest
 
         return arViewTest
     }
     
-    //called when anything inside is changed
+    //called when any variable inside is changed
     func updateUIView(_ uiView: ARViewTest, context: Context) {
         //      uiView.loopAudio(loopOn)
         //      uiView.playStopAudio(isPlaying)
-        uiView.attachAudio(entityData: uiView.boxEntityData, url: arViewAudioData.url)
+        uiView.attachAudio(entityData: uiView.boxEntityData, url: arViewAudioData.boxURL)
+        uiView.attachAudio(entityData: uiView.capsuleEntityData, url: arViewAudioData.capsuleURL)
+        uiView.attachAudio(entityData: uiView.sphereEntityData, url: arViewAudioData.sphereURL)
     }
     
 }
@@ -99,13 +114,13 @@ class ARViewTest: ARView {
     var audio2: AudioFileResource?
     var boxEntity: Entity!
     var capsuleEntity: Entity!
-    var ballEntity: Entity!
+    var sphereEntity: Entity!
 //    let myView = UIView(frame: CGRect(x: 100, y: 100, width: 300, height: 300))
     var audioPlaybackController: AudioPlaybackController?
     var entityDataArray: [EntityData] = []
     var boxEntityData: EntityData!
     var capsuleEntityData: EntityData!
-    var ballEntityData: EntityData!
+    var sphereEntityData: EntityData!
     
     /// init
     override init(frame frameRect: CGRect, cameraMode: ARView.CameraMode, automaticallyConfigureSession: Bool) {
@@ -128,44 +143,20 @@ class ARViewTest: ARView {
         capsuleEntity!.components[CollisionComponent] = CollisionComponent(shapes: [.generateCapsule(height: 0.2, radius: 0.05)])//radius vs diameter??? bottom does not respond with tapping
         
         
-        ballEntity = self.scene.findEntity(named:"ball")
-        ballEntity.setPosition([2,0,0], relativeTo: nil)
-        ballEntity.components[CollisionComponent] = CollisionComponent(shapes: [ .generateSphere(radius: 0.05)])
+        sphereEntity = self.scene.findEntity(named:"ball")
+        sphereEntity.setPosition([2,0,0], relativeTo: nil)
+        sphereEntity.components[CollisionComponent] = CollisionComponent(shapes: [ .generateSphere(radius: 0.05)])
         
         boxEntityData = EntityData(entity: boxEntity, audioFileName: "hello.mp3", audioShouldLoop: false)
         capsuleEntityData = EntityData(entity: capsuleEntity, audioFileName: "bottle.wav", audioShouldLoop: false)
-        ballEntityData = EntityData(entity:ballEntity, audioFileName: "blobs.wav", audioShouldLoop: false)
+        sphereEntityData = EntityData(entity:sphereEntity, audioFileName: "blobs.wav", audioShouldLoop: false)
         
-        entityDataArray = [boxEntityData, capsuleEntityData, ballEntityData]
-        // audio = try! AudioFileResource.load(named: "hello.mp3", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: true)
-        // audioPlaybackController = box!.prepareAudio(self.audio)
-        
-//        //loadAsync
-//        let loadRequest1 = AudioFileResource.loadAsync(named: "hello.mp3", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
-//        let observer1 = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
-//            print("completed")
-//        }, receiveValue: { audio in
-//            // Use loaded audio here
-//            self.audioPlaybackController = self.boxEntity!.prepareAudio(audio)
-//            self.audio1 = audio
-//        })
-//        loadRequest1.subscribe(observer1)
-//
-//        let loadRequest2 = AudioFileResource.loadAsync(named: "bottle.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
-//        let observer2 = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
-//            print("completed")
-//        }, receiveValue: { audio in
-//            // Use loaded audio here
-//            //            self.audioPlaybackController = self.box!.prepareAudio(audio)
-//            //            self.audioPlaybackController!.play()
-//            self.audio2 = audio
-//        })
-//        loadRequest2.subscribe(observer2)
+        entityDataArray = [boxEntityData, capsuleEntityData, sphereEntityData]
         
         
         let tap = UITapGestureRecognizer(target:self, action: #selector(handleTap(_:)))
         self.addGestureRecognizer(tap)
-//        self.isUserInteractionEnabled = true
+        self.isUserInteractionEnabled = true
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer){
@@ -194,35 +185,11 @@ class ARViewTest: ARView {
         let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
             print("completed")
         }, receiveValue: { loadedAudio in
+            entityData.audio = loadedAudio
             entityData.audioPlaybackController = entityData.entity.prepareAudio(loadedAudio)
         })
         loadRequest.subscribe(observer)
     }
-    
-    //        func loopAudio(_ loopOn: Bool) {
-    //            if let controller = audioPlaybackController {
-    //                if controller.isPlaying {
-    //                    controller.stop()
-    //                }
-    //                audio?.shouldLoop = loopOn
-    //                controller.play()
-    //            }
-    //            myView.backgroundColor = loopOn ? .green : .red
-    ////            print("looping:\(self.audio.shouldLoop)")
-    //        }
-    
-    //    func playStopAudio(_ isPlaying: Bool){
-    //            if let controller = audioPlaybackController {
-    //                //if looped, toggle play/stop
-    //                if isPlaying {
-    //                    controller.play()
-    //                } else {
-    //                    controller.stop()
-    //                }
-    //                //if not looped, tap to play once
-    //                controller.play()
-    //            }
-    //        }
     
     
     @available(*, unavailable)
@@ -248,25 +215,27 @@ class EntityData {
     var audioShouldLoop: Bool? = false
     var isSelected: Bool! = false
     
-
+    //change audioFileName to audioURL
     init(entity: Entity, audioFileName: String?, audioShouldLoop: Bool?) {
         self.entity = entity
         self.audioFileName = audioFileName
         self.audioShouldLoop = audioShouldLoop
         
-//        //initialize first?????
-//        audio = try! AudioFileResource.load(named: "piano.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
-//        audioPlaybackController = entity.prepareAudio(audio)
-        guard let fileName = audioFileName else {return}
-//        let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
-        let loadRequest = AudioFileResource.loadAsync(named: fileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
-        let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
-            print("completed")
-        }, receiveValue: { loadedAudio in
-            self.audio = loadedAudio
-            self.audioPlaybackController = self.entity.prepareAudio(loadedAudio)
-        })
-        loadRequest.subscribe(observer)
+////        //initialize first?????
+////        audio = try! AudioFileResource.load(named: "piano.wav", inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
+////        audioPlaybackController = entity.prepareAudio(audio)
+//
+//
+//        guard let fileName = audioFileName else {return}
+////        let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
+//        let loadRequest = AudioFileResource.loadAsync(named: fileName, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: audioShouldLoop!)
+//        let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
+//            print("completed")
+//        }, receiveValue: { loadedAudio in
+//            self.audio = loadedAudio
+//            self.audioPlaybackController = self.entity.prepareAudio(loadedAudio)
+//        })
+//        loadRequest.subscribe(observer)
     }
 }
 
@@ -275,9 +244,14 @@ class EntityData {
 
 final class ARViewAudioData: ObservableObject  {
     ////have to initialize first?
-    @Published var url: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    @Published var boxURL: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    @Published var capsuleURL: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    @Published var sphereURL: URL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
 
-    let urlSubject = PassthroughSubject<URL, Never>()
+    //publishing url from exported audio
+    let boxURLSubject = PassthroughSubject<URL, Never>()
+    let capsuleURLSubject = PassthroughSubject<URL, Never>()
+    let sphereURLSubject = PassthroughSubject<URL, Never>()
     
     var arViewTest: ARViewTest?
 }
