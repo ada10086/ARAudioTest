@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // Use a UIHostingController as window root view controller
             let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UIHostingController(rootView: ContentView(audioEngine: AudioEngine(), arViewAudioData: ARViewAudioData()))
+        window.rootViewController = UIHostingController(rootView: ContentView(audioEngine: AudioEngine(), arViewAudioData: ARViewAudioData(), entitiesModel: EntitiesModel()))
             self.window = window
             window.makeKeyAndVisible()
                                         
