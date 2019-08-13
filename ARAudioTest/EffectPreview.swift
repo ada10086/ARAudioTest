@@ -11,7 +11,7 @@ import AudioKit
 
 struct EffectPreview: View {
     @ObservedObject var audioEngine: AudioEngine
-    @Binding var audioSaved: Bool
+//    @Binding var audioSaved: Bool
     @State var title: String = "my audio"
     
     @ObservedObject var arViewAudioData: ARViewAudioData
@@ -22,7 +22,6 @@ struct EffectPreview: View {
             //preview buttons
             ForEach(self.audioEngine.effectPlayers, id: \.self){ playerData in
                 Button(playerData.effect){
-//                    try? AudioKit.stop()
 //                    try? AudioKit.start()
                     ////breakpoint: required condition is false: [AVAudioPlayerNode.mm:568:StartImpl: (_engine->IsRunning())]
                     playerData.player.play()
@@ -45,7 +44,7 @@ struct EffectPreview: View {
             }
             .padding()
             
-            Button("save"){
+            Button("save to object"){
                 if let _ = self.audioEngine.recorder.audioFile?.duration {
                     
                     do {
@@ -62,8 +61,8 @@ struct EffectPreview: View {
                         })
                         print("audio file rendered")
                         
-//                        //send url to subscriber in ARViewTest
-//                        self.arViewAudioData.urlSubject.send(url)
+                        //send url to subscriber in ARViewTest
+                        self.arViewAudioData.urlSubject.send(url)
 
                         
                         //add data to recordedfiles array
@@ -74,7 +73,7 @@ struct EffectPreview: View {
                         //reset recorder, clear recorder audiofile
                         try self.audioEngine.recorder.reset()
                         
-                        self.audioSaved = true
+//                        self.audioSaved = true
                         
                     } catch {
                         print("error rendering", error)
@@ -82,7 +81,7 @@ struct EffectPreview: View {
                 }
             }
             .foregroundColor(Color.red)
-            .frame(width: 70, height: 30, alignment: .center)
+            .frame(width: 110, height: 30, alignment: .center)
             .background(Color.black)
             .cornerRadius(5)
         }

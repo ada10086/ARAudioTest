@@ -13,7 +13,7 @@ import Combine
 struct AudioView: View {
     @ObservedObject var audioEngine: AudioEngine
     @State var recordingFinished: Bool = false
-    @State var audioSaved: Bool = false
+//    @State var audioSaved: Bool = false
     @Binding var audioViewOn: Bool
     
     @ObservedObject var arViewAudioData: ARViewAudioData
@@ -72,15 +72,10 @@ struct AudioView: View {
                     
                 } else {
                     
-                    if !audioSaved {
-                        EffectPreview(audioEngine: audioEngine, audioSaved: $audioSaved, arViewAudioData: arViewAudioData)
-                    } else {
-                        SavedAudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn, arViewAudioData: arViewAudioData)
-                            .padding()
-                        
+                    EffectPreview(audioEngine: audioEngine, arViewAudioData: arViewAudioData)
+                    HStack {
                         Button("new recording"){
                             self.recordingFinished = false
-                            self.audioSaved = false
                         }
                         .frame(width: 120, height: 30, alignment: .center)
                         .background(Color.red)
@@ -90,7 +85,6 @@ struct AudioView: View {
                         
                         Button("dismiss"){
                             self.audioViewOn = false
-//                            try? AudioKit.stop()
                         }
                         .frame(width: 120, height: 30, alignment: .center)
                         .background(Color.black)  //if active, change color
@@ -98,6 +92,32 @@ struct AudioView: View {
                         .foregroundColor(Color.white)
                         .padding(3)
                     }
+                    
+//                    if !audioSaved {
+//                        EffectPreview(audioEngine: audioEngine, audioSaved: $audioSaved, arViewAudioData: arViewAudioData)
+//                    } else {
+//                        SavedAudioView(audioEngine: audioEngine, audioViewOn: $audioViewOn, arViewAudioData: arViewAudioData)
+//                            .padding()
+//
+//                        Button("new recording"){
+//                            self.recordingFinished = false
+//                            self.audioSaved = false
+//                        }
+//                        .frame(width: 120, height: 30, alignment: .center)
+//                        .background(Color.red)
+//                        .cornerRadius(5)
+//                        .foregroundColor(Color.white)
+//                        .padding(3)
+//
+//                        Button("dismiss"){
+//                            self.audioViewOn = false
+//                        }
+//                        .frame(width: 120, height: 30, alignment: .center)
+//                        .background(Color.black)  //if active, change color
+//                        .cornerRadius(5)
+//                        .foregroundColor(Color.white)
+//                        .padding(3)
+//                    }
                     
                 }
             }
