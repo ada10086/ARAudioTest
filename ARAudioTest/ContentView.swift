@@ -70,7 +70,6 @@ struct ARViewContainer: UIViewRepresentable {
 
 //    var arViewTest: ARViewTest
     
-    
     init(arViewAudioData:ARViewAudioData, entitiesModel: EntitiesModel){
         self.arViewAudioData = arViewAudioData
         self.entitiesModel = entitiesModel
@@ -84,6 +83,15 @@ struct ARViewContainer: UIViewRepresentable {
 //            entitiesModel.attachAudio(entityData: entitiesModel.boxEntityData, url: url)
             
             arViewAudioData.arViewTest!.attachAudio(entityData: arViewAudioData.arViewTest!.boxEntityData, url: url)
+//            arViewAudioData.arViewTest!.attachAudio(entityData: arViewAudioData.arViewTest!.selectedEntityData!, url: url)
+//            print("audio attached to selected entity : \(arViewAudioData.arViewTest!.selectedEntityData!)")
+
+//            for (index, entityData) in arViewAudioData.arViewTest!.entityDataArray.enumerated() {
+//                if entityData.isSelected {
+//                    arViewAudioData.arViewTest!.attachAudio(entityData: entityData, url: url)
+//                    print("audio attached to selected entity : \(entityData.entity)")
+//                }
+//            }
             
 //            if let myARView = arViewAudioData.arViewTest {
 //                print("myARView = arViewAudioData.arViewTest")
@@ -130,7 +138,7 @@ class ARViewTest: ARView {
     var sphereEntityData: EntityData!
 
     var selectedEntityData: EntityData?
-
+    
     /// init
     required init() {
         super.init(frame: .zero, cameraMode: .ar, automaticallyConfigureSession: true)
@@ -161,7 +169,7 @@ class ARViewTest: ARView {
 //        sphereEntity.generateCollisionShapes(recursive: true)
 
 
-        boxEntityData = EntityData(entity: boxEntity, audioFileName: "hello.mp3", audioShouldLoop: false)
+        boxEntityData = EntityData(entity: boxEntity, audioFileName: nil, audioShouldLoop: false)
         capsuleEntityData = EntityData(entity: capsuleEntity, audioFileName: "bottle.wav", audioShouldLoop: false)
         sphereEntityData = EntityData(entity:sphereEntity, audioFileName: "blobs.wav", audioShouldLoop: false)
 
@@ -186,7 +194,7 @@ class ARViewTest: ARView {
                     print("entity audio url: \(entityDataArray[index].audioURL)")
                 }
                 entityDataArray[index].isSelected = true
-//                selectedEntityData = entityDataArray[index]
+                selectedEntityData = entityDataArray[index]
 //                print("selectedEntityData:\(selectedEntityData?.entity)" )
                 print("selectedEntityData:\(entity)" )
 
@@ -203,11 +211,10 @@ class ARViewTest: ARView {
 //        let loadedAudio = try? AudioFileResource.load(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
 //        entityData.audio = loadedAudio
 //        entityData.audioPlaybackController = entityData.entity.prepareAudio(loadedAudio!)
-        
         ///[Audio] Failed to read file: (null)?????
         let loadRequest = AudioFileResource.loadAsync(contentsOf: url, withName: nil, inputMode: .spatial, loadingStrategy: .preload, shouldLoop: false)
         let observer = Subscribers.Sink<AudioFileResource, Error>(receiveCompletion: { completion in
-            print("completed")
+            print("completed")   //discounnected after completion
         }, receiveValue: { loadedAudio in
             print("here")
 

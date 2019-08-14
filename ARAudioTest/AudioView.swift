@@ -46,9 +46,9 @@ struct AudioView: View {
                         if let _ = self.audioEngine.recorder.audioFile?.duration {
                             self.audioEngine.recorder.stop()
                             self.audioEngine.recorder.audioFile!.exportAsynchronously(
-                                name: "tempRecording.wav",
+                                name: "tempRecording.caf",
                                 baseDir: .documents,
-                                exportFormat: .wav) { file, exportError in
+                                exportFormat: .caf) { file, exportError in
                                     if let error = exportError {
                                         AKLog("Export Failed \(error)")
                                     } else {

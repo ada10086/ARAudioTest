@@ -50,9 +50,9 @@ struct EffectPreview: View {
                     do {
                         //export audio file with applied effect .wav
                         let id = UUID()
-                        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(id.uuidString + ".wav")
-                        let format = AVAudioFormat(commonFormat: .pcmFormatFloat64, sampleRate: 44100, channels: 2, interleaved: false)!
-                        let audioFile = try! AVAudioFile(forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat64, interleaved: false)
+                        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(id.uuidString + ".caf")
+                        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 44100, channels: 2, interleaved: false)!
+                        let audioFile = try! AVAudioFile(forWriting: url, settings: format.settings, commonFormat: .pcmFormatFloat32, interleaved: false)
                         try AudioKit.renderToFile(audioFile, duration:
                             //fix duration!!
                             self.audioEngine.activePlayerData.player.duration + 1, prerender: {
@@ -66,7 +66,7 @@ struct EffectPreview: View {
 
                         
                         //add data to recordedfiles array
-                        self.audioEngine.recordedFileData = RecordedFileData(id: id, fileURL: audioFile.directoryPath.appendingPathComponent(id.uuidString + ".wav"), title: self.title, effect: self.audioEngine.activePlayerData.effect)
+                        self.audioEngine.recordedFileData = RecordedFileData(id: id, fileURL: audioFile.directoryPath.appendingPathComponent(id.uuidString + ".caf"), title: self.title, effect: self.audioEngine.activePlayerData.effect)
                         self.audioEngine.recordedFiles.append(self.audioEngine.recordedFileData!)
                         print("audioFiles: \(self.audioEngine.recordedFiles)")
                         
